@@ -1,6 +1,4 @@
 from database import get_connection
-from food_repository import add_food, get_food_by_name
-
 
 def test_rows():
     with get_connection() as conn:

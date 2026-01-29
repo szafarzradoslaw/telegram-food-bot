@@ -1,10 +1,11 @@
-from pathlib import Path
+from database import get_connection
 from food_repository import get_food_by_name
-from errors import FoodNotFoundError, UnitConversionError
+from errors import UnitConversionError
 
 def convert_units_to_grams(amount: float, unit: str, food_name: str) -> float:
     unit_key = unit.lower()
-    food = get_food_by_name(food_name.lower())
+    with get_connection() as conn:
+        food = get_food_by_name(conn, food_name.lower())
     
     UNIT_MULTIPLIER = {
         "g": 1,
@@ -23,7 +24,8 @@ def convert_units_to_grams(amount: float, unit: str, food_name: str) -> float:
     
 
 def calculate_macros(food_name: str, amount: float, unit: str):
-    food = get_food_by_name(food_name)
+    with get_connection() as conn:
+        food = get_food_by_name(conn, food_name)
     grams = convert_units_to_grams(amount, unit, food_name)
     macros = {
         "calories": food.calories_per_100g * grams / 100,
