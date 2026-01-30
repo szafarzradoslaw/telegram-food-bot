@@ -2,3 +2,4 @@ venv/
 venv-test/
 .env
 localstart.txt
+TODO.txt
