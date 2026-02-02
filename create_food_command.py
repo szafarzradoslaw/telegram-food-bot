@@ -2,7 +2,7 @@ from telegram import Update
 from telegram.ext import CommandHandler, MessageHandler, ConversationHandler, filters, ContextTypes
 from parsing_service import is_number
 from database import get_connection
-from food_repository import add_food, food_exists
+from food_repository import create_food_record, food_exists
 NAME, CALORIES, PROTEIN, FAT, CARBS, CONFRIMATION = range(6)
 
 async def createfood(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -71,7 +71,7 @@ async def confirmation(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text.lower()
     if text in ['yes', 'y', 'confirm', "tak", 't']:
         with get_connection() as conn:
-            add_food(
+            create_food_record(
                 conn,
                 context.user_data['name'],
                 context.user_data['calories'],

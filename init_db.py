@@ -19,7 +19,18 @@ def init_db():
                 
             )
         """)
-        print("Database initialized and foods table created successfully.")
+        
+        conn.execute("""
+                CREATE TABLE IF NOT EXISTS food_log (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    food_id INTEGER NOT NULL,
+                    quantity REAL NOT NULL,
+                    log_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (food_id) REFERENCES food_macros(id)
+                )
+            """)
+    
+    print("Database created")
 
 if __name__ == "__main__":
     init_db()

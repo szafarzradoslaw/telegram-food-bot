@@ -3,6 +3,8 @@ from typing import Optional
 from dataclasses import dataclass
 from errors import FoodNotFoundError
 
+# food_macros table
+
 @dataclass(frozen=True)
 class Food:
     id: int
@@ -13,7 +15,7 @@ class Food:
     fat_per_100g: float
     gram_per_portion: Optional[float] = None
 
-def add_food(
+def create_food_record(
     conn: sqlite3.Connection,
     name: str,
     calories_per_100g: float,
@@ -49,8 +51,6 @@ def add_food(
     )
     return cursor.lastrowid
 
-
-
 def get_food_by_name(conn: sqlite3.Connection, name: str) -> Food:
     """
     Retrieve a food by name or raise FoodNotFoundError.
@@ -65,7 +65,7 @@ def get_food_by_name(conn: sqlite3.Connection, name: str) -> Food:
             fat_per_100g,
             carbs_per_100g,
             gram_per_portion
-        FROM food_macros
+            FROM food_macros
         WHERE name = ?
         """,
         (name.strip().lower(),),
@@ -92,10 +92,32 @@ def food_exists(conn: sqlite3.Connection, name: str) -> bool:
     cursor = conn.execute(
         """
         SELECT 1
-        FROM food_macro
+        FROM food_macros
         WHERE name = ?
         LIMIT 1
         """,
         (name.strip().lower(),),
     )
     return cursor.fetchone() is not None
+
+# food_log table
+
+def log_food_entry(
+    conn: sqlite3.Connection,
+    food_id: int,
+    quantity: float,
+) -> int:
+    """
+    Log a food consumption entry and return its database id.
+    """
+    cursor = conn.execute(
+        """
+        INSERT INTO food_log (
+            food_id,
+            quantity
+        )
+        VALUES (?, ?)
+        """,
+        (food_id, quantity,),
+    )
+    return cursor.lastrowid
