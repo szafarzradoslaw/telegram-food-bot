@@ -28,7 +28,7 @@ def add_food(
     """
     cursor = conn.execute(
         """
-        INSERT INTO foods (
+        INSERT INTO food_macros (
             name,
             calories_per_100g,
             protein_per_100g,
@@ -65,7 +65,7 @@ def get_food_by_name(conn: sqlite3.Connection, name: str) -> Food:
             fat_per_100g,
             carbs_per_100g,
             gram_per_portion
-        FROM foods
+        FROM food_macros
         WHERE name = ?
         """,
         (name.strip().lower(),),
@@ -92,7 +92,7 @@ def food_exists(conn: sqlite3.Connection, name: str) -> bool:
     cursor = conn.execute(
         """
         SELECT 1
-        FROM foods
+        FROM food_macro
         WHERE name = ?
         LIMIT 1
         """,

@@ -8,7 +8,7 @@ def init_db():
     with get_connection() as conn:
         # Foods table
         conn.execute("""
-            CREATE TABLE IF NOT EXISTS foods (
+            CREATE TABLE IF NOT EXISTS food_macros (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
                 calories_per_100g REAL NOT NULL,
