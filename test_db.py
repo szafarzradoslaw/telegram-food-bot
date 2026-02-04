@@ -13,6 +13,6 @@ def test_columns(table_name):
             print(dict(col))
 
 if __name__ == "__main__":
-    test_rows("food_log")
+    test_rows("food_macros")
     #test_rows("food_log")
     #test_columns("food_macros")
