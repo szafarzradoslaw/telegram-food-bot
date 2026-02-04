@@ -22,13 +22,11 @@ PATTERN_FOOD_ONLY = re.compile(
     r"^[a-zA-Z ]+$"
 )
 
-
 @dataclass(frozen=True)
 class ParsedFood:
     name: str
     amount: float
     unit: str
-
 
 def parse_food_input(user_input: str):
     text = user_input.strip().lower().replace(",", ".")
