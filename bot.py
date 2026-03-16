@@ -17,6 +17,8 @@ if not TOKEN:
     raise TelegramBotTokenError("TELEGRAM_BOT_TOKEN is not set") 
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not update.message:
+        return
     response = await handle_response(update, context)
     await update.message.reply_text(response)
 
@@ -30,4 +32,4 @@ if __name__ == "__main__":
     )
 
     # START THE BOT
-    app.run_polling()
+    app.run_polling()   
